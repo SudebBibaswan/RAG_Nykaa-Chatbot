@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Glossary - tokens
+   powder  : the counter surface (pale rose powder, not cream)
+   kohl    : aubergine-black ink
+   rani    : Indian rani pink, the brand colour
+   marigold: embellish's sparkle, used sparingly
+   mauve   : quiet secondary text
+------------------------------------------------------------------- */
+:root {
+  --powder: #fbf4f6;
+  --blush: #f6dfe7;
+  --petal: #fdeaf0;
+  --kohl: #1e1424;
+  --kohl-soft: #3a2a40;
+  --mauve: #8c6a80;
+  --rani: #e2185b;
+  --rani-deep: #b40f47;
+  --marigold: #f0a23b;
+  --line: #ead3dc;
+  --white: #ffffff;
+  --ok: #1f7a4d;
+}
+
+@theme inline {
+  --color-powder: var(--powder);
+  --color-blush: var(--blush);
+  --color-petal: var(--petal);
+  --color-kohl: var(--kohl);
+  --color-kohl-soft: var(--kohl-soft);
+  --color-mauve: var(--mauve);
+  --color-rani: var(--rani);
+  --color-rani-deep: var(--rani-deep);
+  --color-marigold: var(--marigold);
+  --color-line: var(--line);
+  --color-ok: var(--ok);
+  --font-display: var(--font-bodoni);
+  --font-sans: var(--font-schibsted);
+}
+
+html {
+  background: var(--powder);
+  color: var(--kohl);
+}
+
+body {
+  background: var(--powder);
+  font-family: var(--font-schibsted), system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Display type: Bodoni at large optical sizes, tight but not cramped */
+.display {
+  font-family: var(--font-bodoni), Didot, serif;
+  font-optical-sizing: auto;
+  font-variation-settings: "opsz" 96;
+  letter-spacing: -0.015em;
+  line-height: 0.98;
+}
+
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--rani);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+}
+
+::selection {
+  background: var(--rani);
+  color: var(--white);
+}
+
+/* horizontal product rails */
+.rail {
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
+.rail > * {
+  scroll-snap-align: start;
+}
+
+/* thin scrollbars inside the assistant panel */
+.thin-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+
+/* vanity-mirror bulbs light up once on load, in sequence */
+@keyframes bulb-on {
+  0% { opacity: 0.15; transform: scale(0.6); }
+  60% { opacity: 1; transform: scale(1.15); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.bulb {
+  opacity: 0.15;
+  animation: bulb-on 600ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* streaming caret */
+@keyframes caret {
+  50% { opacity: 0; }
+}
+.caret::after {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: -2px;
+  background: var(--rani);
+  border-radius: 2px;
+  animation: caret 900ms steps(1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+  .bulb {
+    opacity: 1;
+  }
+}
